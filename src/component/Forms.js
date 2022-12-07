@@ -15,18 +15,29 @@ export default function Forms() {
          [name]: type === "checkbox" ? checked : value,
       }));
    }
+   const [display, setDisplay] = React.useState(<h4>Fill the from</h4>);
+   const [displayNewsletter, setDisplayNewsletter] = React.useState(<h4>Please subscribe</h4>);
 
    function handleSubmit(event) {
       event.preventDefault();
-      if (formData.password === formData.conformPassword) {
-         console.log("Match");
-      } else {
-         console.log("not match");
+      if(formData.password ==="" || formData.conformPassword==="" || formData.email===""){
+         setDisplay((prev) => <h4>Fill the from</h4>);
+      }else{
+         if (formData.password === formData.conformPassword) {
+            setDisplay((prev) => <h4>Successful</h4>);
+         } else {
+            setDisplay((prev) => <h4 className="error-text">Password not match</h4>);
+         }
       }
       if (formData.newsletter === true) {
-         console.log("News Letter");
+         setDisplayNewsletter((prev) => (
+            <h4 className="newsletter-text">Thank you for subscribe</h4>
+         ));
+      }else{
+         setDisplayNewsletter((prev) => (
+            <h4>Please subscribe</h4>
+         ));
       }
-      
    }
 
    return (
@@ -43,7 +54,7 @@ export default function Forms() {
             />
             <input
                className="input"
-              //  type="new-password"  //for avid DOM error
+               //  type="new-password"  //for avid DOM error
                type="password"
                placeholder="Password"
                name="password"
@@ -52,7 +63,7 @@ export default function Forms() {
             />
             <input
                className="input"
-              //  type="current-password" //for avid Dom error
+               //  type="current-password" //for avid Dom error
                type="password"
                placeholder="Conform Password"
                name="conformPassword"
@@ -71,6 +82,10 @@ export default function Forms() {
                <label htmlFor="newsletter" className="label-text">
                   I want to join the newsletter
                </label>
+            </div>
+            <div className="notification-show">
+               <div className="notification-text">{display}</div>
+               <div className="notification-text">{displayNewsletter}</div>
             </div>
             <button className="btn">Sign Up</button>
          </form>
